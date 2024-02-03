@@ -21,13 +21,13 @@ spring:
       hibernate:
         format_sql: 'true'
   datasource:
-    password: ${LOCAL_DB_PASSWORD}
+    password: rootPassword
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ${LOCAL_DB_USER}
-    url: ${LOCAL_DB_URL}
+    username: root
+    url: jdbc:mysql://mysql:3306/preorder
   data:
     redis:
       port: '6379'
       host: localhost
 server:
-  port: '8081'
+  port: '8080'
