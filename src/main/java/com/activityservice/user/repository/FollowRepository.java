@@ -1,7 +1,6 @@
 package com.activityservice.user.repository;
 
 import com.activityservice.user.domain.entity.Follow;
-import com.activityservice.user.domain.entity.User;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface FollowRepository extends JpaRepository<Follow, Long> {
-    boolean existsByUserAndFollowId(User user, User followUser);
+    boolean existsByUserIdAndFollowId(Long user, Long followUser);
     @Query(value = "select f.follow_user_id from follow f where f.user_id = :user", nativeQuery = true)
     Optional<List<Long>> findUsersByUserId(@Param(value = "user") Long user);
 

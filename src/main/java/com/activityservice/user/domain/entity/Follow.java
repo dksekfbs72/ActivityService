@@ -19,13 +19,9 @@ public class Follow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Long userId;
 
-    @ManyToOne
-    @JoinColumn(name = "follow_user_id")
-    private User followId;
+    private Long followId;
 
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createAt;

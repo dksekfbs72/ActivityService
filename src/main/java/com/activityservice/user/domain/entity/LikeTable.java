@@ -19,9 +19,7 @@ public class LikeTable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Long userId;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
