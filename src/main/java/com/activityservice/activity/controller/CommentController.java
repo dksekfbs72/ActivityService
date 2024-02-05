@@ -13,7 +13,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/comment")
+    @PostMapping
     public WebResponseData<String> writeComment(
             @RequestHeader("Authorization") String token,
             @RequestParam long postId,

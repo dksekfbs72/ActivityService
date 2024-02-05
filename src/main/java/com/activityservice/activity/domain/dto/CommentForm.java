@@ -12,9 +12,9 @@ public class CommentForm {
 
     public Comment toEntity(Long user, Post post) {
         return Comment.builder()
-//                .post(post)
-//                .user(user)
-//                .text(this.description)
+                .post(post)
+                .userId(user)
+                .text(this.description)
                 .build();
     }
 }
