@@ -12,14 +12,14 @@ public class LikeController {
 
     private final LikeService likeService;
 
-    @PostMapping("/likePost")
+    @PostMapping("/post")
     public WebResponseData<String> likePost(
             @RequestHeader("Authorization") String token,
             @RequestParam long postId
     ) {
         return WebResponseData.ok(likeService.likePost(token, postId));
     }
-    @PostMapping("/likeComment")
+    @PostMapping("/comment")
     public WebResponseData<String> likeComment(
             @RequestHeader("Authorization") String token,
             @RequestParam long commentId

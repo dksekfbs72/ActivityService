@@ -10,10 +10,11 @@ import lombok.NoArgsConstructor;
 public class CommentForm {
     private String description;
 
-    public Comment toEntity(Long user, Post post) {
+    public Comment toEntity(UserDto user, Post post) {
         return Comment.builder()
                 .post(post)
-                .userId(user)
+                .userId(user.getId())
+                .userName(user.getName())
                 .text(this.description)
                 .build();
     }

@@ -78,18 +78,6 @@ public class FollowService {
         return userFollowDto;
     }
 
-//    private String getUserName(Long userId) {
-//        String url = "http://localhost:8080/user/getUserName/{userId}";
-//
-//        ResponseEntity<String> response = restTemplate.getForEntity(
-//                url,
-//                String.class,
-//                userId
-//        );
-//
-//        return response.getBody();
-//    }
-
     private void toBeActivity(ActivityForm activityForm) {
         String url = "http://localhost:8082/feed";
 

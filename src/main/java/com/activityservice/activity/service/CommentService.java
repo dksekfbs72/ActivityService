@@ -33,7 +33,7 @@ public class CommentService {
                 .userName(user.getName())
                 .to(post.getUserName())
                 .postId(postId)
-                .commentId(commentRepository.save(commentForm.toEntity(user.getId(), post)).getId())
+                .commentId(commentRepository.save(commentForm.toEntity(user, post)).getId())
                 .build());
         return "성공";
     }
