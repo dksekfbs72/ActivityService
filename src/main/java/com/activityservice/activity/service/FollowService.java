@@ -56,7 +56,7 @@ public class FollowService {
     }
 
     private UserFollowDto getUserInfoForFollow(String token, Long followId) {
-        String url = "http://localhost:8080/user/infoForFollow?followId="+ followId;
+        String url = "http://userService:8080/user/infoForFollow?followId="+ followId;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token);
 
@@ -79,7 +79,7 @@ public class FollowService {
     }
 
     private void toBeActivity(ActivityForm activityForm) {
-        String url = "http://localhost:8082/feed";
+        String url = "http://newsFeedService:8082/feed";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

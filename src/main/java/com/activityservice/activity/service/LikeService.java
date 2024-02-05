@@ -79,7 +79,7 @@ public class LikeService {
     }
 
     private void toBeActivity(ActivityForm activityForm) {
-        String url = "http://localhost:8082/feed";
+        String url = "http://newsFeedService:8082/feed";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -90,7 +90,7 @@ public class LikeService {
     }
 
     private UserDto getUser(String token) {
-        String url = "http://localhost:8080/user/info";
+        String url = "http://userService:8080/user/info";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token);
 
