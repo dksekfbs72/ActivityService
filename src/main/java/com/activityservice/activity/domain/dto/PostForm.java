@@ -10,12 +10,12 @@ public class PostForm {
     private String title;
     private String text;
 
-    public Post toEntity(Long user) {
+    public Post toEntity(UserDto user) {
         return Post.builder()
-//                .user(user)
-//                .title(this.title)
-//                .text(this.text)
-//                .userName(user.getName())
+                .userId(user.getId())
+                .title(this.title)
+                .text(this.text)
+                .userName(user.getName())
                 .build();
     }
 }

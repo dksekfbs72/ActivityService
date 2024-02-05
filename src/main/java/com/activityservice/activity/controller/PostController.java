@@ -13,7 +13,7 @@ public class PostController {
 
     private final PostService postService;
 
-    @PostMapping("/post")
+    @PostMapping
     public WebResponseData<String> writePost(
             @RequestHeader("Authorization") String token,
             @RequestBody PostForm postForm
