@@ -1,13 +1,12 @@
-package com.activityservice.user.service;
+package com.activityservice.activity.service;
 
 import com.activityservice.global.exception.ActivityException;
 import com.activityservice.global.type.ErrorCode;
-import com.activityservice.user.domain.dto.CommentForm;
-import com.activityservice.user.domain.entity.Post;
-import com.activityservice.user.repository.CommentRepository;
-import com.activityservice.user.repository.PostRepository;
+import com.activityservice.activity.domain.dto.CommentForm;
+import com.activityservice.activity.domain.entity.Post;
+import com.activityservice.activity.repository.CommentRepository;
+import com.activityservice.activity.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,7 +16,7 @@ import java.util.Optional;
 public class CommentService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
-    public String writeComment(Authentication auth, long postId, CommentForm commentForm) {
+    public String writeComment(String token, long postId, CommentForm commentForm) {
 //        User user = whoIAm(auth);
 //        Post post = getThisPost(postId);
 //        activityRepository.save(Activity.builder()

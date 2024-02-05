@@ -1,10 +1,9 @@
-package com.activityservice.user.controller;
+package com.activityservice.activity.controller;
 
 import com.activityservice.global.dto.WebResponseData;
-import com.activityservice.user.domain.dto.CommentForm;
-import com.activityservice.user.service.CommentService;
+import com.activityservice.activity.domain.dto.CommentForm;
+import com.activityservice.activity.service.CommentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,10 +15,10 @@ public class CommentController {
 
     @PostMapping("/comment")
     public WebResponseData<String> writeComment(
-            Authentication auth,
+            @RequestHeader("Authorization") String token,
             @RequestParam long postId,
             @RequestBody CommentForm commentForm
     ) {
-        return WebResponseData.ok(commentService.writeComment(auth, postId, commentForm));
+        return WebResponseData.ok(commentService.writeComment(token, postId, commentForm));
     }
 }

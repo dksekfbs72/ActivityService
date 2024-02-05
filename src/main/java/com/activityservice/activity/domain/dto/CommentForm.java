@@ -1,7 +1,7 @@
-package com.activityservice.user.domain.dto;
+package com.activityservice.activity.domain.dto;
 
-import com.activityservice.user.domain.entity.Comment;
-import com.activityservice.user.domain.entity.Post;
+import com.activityservice.activity.domain.entity.Comment;
+import com.activityservice.activity.domain.entity.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

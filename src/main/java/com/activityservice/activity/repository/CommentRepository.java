@@ -1,6 +1,6 @@
-package com.activityservice.user.repository;
+package com.activityservice.activity.repository;
 
-import com.activityservice.user.domain.entity.Comment;
+import com.activityservice.activity.domain.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

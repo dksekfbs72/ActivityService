@@ -1,4 +1,4 @@
-package com.activityservice.user.domain.entity;
+package com.activityservice.activity.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,25 +12,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(indexes = {
-        @Index(name = "user_idx", columnList = "user_id")
+        @Index(name = "user_asc", columnList = "user_id")
 })
-public class LikeTable {
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long userId;
-
-    @ManyToOne
-    @JoinColumn(name = "post_id")
-    private Post post;
-
-    @ManyToOne
-    @JoinColumn(name = "comment_id")
-    private Comment comment;
-
+    private String userName;
+    private String title;
+    private String text;
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createAt;
+
     @PrePersist
     protected void onCreate() {
         createAt = LocalDateTime.now();

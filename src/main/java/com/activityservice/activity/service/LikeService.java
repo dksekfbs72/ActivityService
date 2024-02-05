@@ -1,13 +1,12 @@
-package com.activityservice.user.service;
+package com.activityservice.activity.service;
 
 import com.activityservice.global.exception.ActivityException;
 import com.activityservice.global.type.ErrorCode;
-import com.activityservice.user.domain.entity.Post;
-import com.activityservice.user.repository.CommentRepository;
-import com.activityservice.user.repository.LikeRepository;
-import com.activityservice.user.repository.PostRepository;
+import com.activityservice.activity.domain.entity.Post;
+import com.activityservice.activity.repository.CommentRepository;
+import com.activityservice.activity.repository.LikeRepository;
+import com.activityservice.activity.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,7 +18,7 @@ public class LikeService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
 
-    public String likePost(Authentication auth, long postId) {
+    public String likePost(String token, long postId) {
 //        User user = whoIAm(auth);
 //        Post post = getThisPost(postId);
 //        activityRepository.save(Activity.builder()
@@ -35,7 +34,7 @@ public class LikeService {
         return "성공";
     }
 
-    public String likeComment(Authentication auth, long commentId) {
+    public String likeComment(String auth, long commentId) {
 //        User user = whoIAm(auth);
 //        Optional<Comment> optionalComment = commentRepository.findById(commentId);
 //        if (optionalComment.isEmpty()) {

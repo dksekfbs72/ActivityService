@@ -1,4 +1,4 @@
-package com.activityservice.user.domain.entity;
+package com.activityservice.activity.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,14 +14,15 @@ import java.time.LocalDateTime;
 @Table(indexes = {
         @Index(name = "user_asc", columnList = "user_id")
 })
-public class Post {
+public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Long userId;
-    private String userName;
-    private String title;
-    private String text;
+
+    private Long followId;
+
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createAt;
 

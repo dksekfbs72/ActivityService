@@ -1,4 +1,4 @@
-package com.activityservice.user.domain.entity;
+package com.activityservice.activity.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(indexes = {
-        @Index(name = "user_asc", columnList = "user_id")
+        @Index(name = "user_idx", columnList = "user_id")
 })
-public class Comment {
+public class LikeTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,7 +25,10 @@ public class Comment {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    private String text;
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
+
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createAt;
     @PrePersist

@@ -1,9 +1,8 @@
-package com.activityservice.user.service;
+package com.activityservice.activity.service;
 
-import com.activityservice.user.domain.dto.PostForm;
-import com.activityservice.user.repository.PostRepository;
+import com.activityservice.activity.domain.dto.PostForm;
+import com.activityservice.activity.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class PostService {
     private final PostRepository postRepository;
 
-    public String writePost(Authentication auth, PostForm postForm) {
+    public String writePost(String token, PostForm postForm) {
 //        User user = whoIAm(auth);
 //        long postId = postRepository.save(postForm.toEntity(user)).getId();
 //        activityRepository.save(Activity.builder()

@@ -1,6 +1,6 @@
-package com.activityservice.user.repository;
+package com.activityservice.activity.repository;
 
-import com.activityservice.user.domain.entity.Post;
+import com.activityservice.activity.domain.entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
