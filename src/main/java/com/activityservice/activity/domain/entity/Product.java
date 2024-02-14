@@ -19,6 +19,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long stock;
+    private String description;
     private Long price;
     private String title;
     @Temporal(TemporalType.TIMESTAMP)

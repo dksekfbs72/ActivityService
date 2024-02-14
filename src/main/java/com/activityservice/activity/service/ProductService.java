@@ -1,9 +1,8 @@
 package com.activityservice.activity.service;
 
-import com.activityservice.activity.domain.dto.ActivityForm;
-import com.activityservice.activity.domain.dto.PostForm;
-import com.activityservice.activity.domain.dto.UserDto;
-import com.activityservice.activity.repository.PostRepository;
+import com.activityservice.activity.domain.dto.*;
+import com.activityservice.activity.domain.entity.Product;
+import com.activityservice.activity.repository.ProductRepository;
 import com.activityservice.global.type.FeedType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,19 +11,22 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
-public class PostService {
-    private final PostRepository postRepository;
+public class ProductService {
+    private final ProductRepository productRepository;
     private final RestTemplate restTemplate;
 
-    public String writePost(String token, PostForm postForm) {
+    public String writePost(String token, ProductForm productForm) {
         UserDto user = getUser(token);
-        long postId = postRepository.save(postForm.toEntity(user)).getId();
+        long postId = productRepository.save(productForm.toEntity(user)).getId();
         toBeActivity(ActivityForm.builder()
                 .userId(user.getId())
                 .feedType(FeedType.POST)
-                .title(postForm.getTitle())
+                .title(productForm.getTitle())
                 .userName(user.getName())
                 .postId(postId)
                 .build());
@@ -63,5 +65,18 @@ public class PostService {
         HttpEntity<ActivityForm> request = new HttpEntity<>(activityForm, headers);
 
         restTemplate.postForEntity(url, request, String.class);
+    }
+
+    public List<ProductDto> getProductList() {
+        return ProductDto.toList(productRepository.findAll());
+    }
+
+    public ProductDetailDto getProductDetail(Long productId) {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if (optionalProduct.isEmpty()) {
+            throw new RuntimeException();
+        }
+
+        return ProductDetailDto.toDto(optionalProduct.get());
     }
 }

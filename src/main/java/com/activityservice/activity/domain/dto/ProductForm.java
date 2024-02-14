@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class PostForm {
+public class ProductForm {
     private Long stock;
     private String title;
     private Long price;

@@ -9,7 +9,7 @@ import com.activityservice.global.type.ErrorCode;
 import com.activityservice.activity.domain.entity.Product;
 import com.activityservice.activity.repository.CommentRepository;
 import com.activityservice.activity.repository.LikeRepository;
-import com.activityservice.activity.repository.PostRepository;
+import com.activityservice.activity.repository.ProductRepository;
 import com.activityservice.global.type.FeedType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +25,7 @@ import java.util.Optional;
 public class LikeService {
     private final LikeRepository likeRepository;
     private final CommentRepository commentRepository;
-    private final PostRepository postRepository;
+    private final ProductRepository productRepository;
     private final RestTemplate restTemplate;
 
     public String likePost(String token, long postId) {
@@ -63,7 +63,7 @@ public class LikeService {
     }
 
     public Product getThisPost(long postId) {
-        Optional<Product> optionalPost = postRepository.findById(postId);
+        Optional<Product> optionalPost = productRepository.findById(postId);
         if (optionalPost.isEmpty()) {
             throw new ActivityException(ErrorCode.NOT_FOUND_POST);
         }
