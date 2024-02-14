@@ -1,7 +1,7 @@
 package com.activityservice.activity.domain.dto;
 
 import com.activityservice.activity.domain.entity.Comment;
-import com.activityservice.activity.domain.entity.Post;
+import com.activityservice.activity.domain.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 public class CommentForm {
     private String description;
 
-    public Comment toEntity(UserDto user, Post post) {
+    public Comment toEntity(UserDto user, Product product) {
         return Comment.builder()
-                .post(post)
+                .product(product)
                 .userId(user.getId())
                 .userName(user.getName())
                 .text(this.description)

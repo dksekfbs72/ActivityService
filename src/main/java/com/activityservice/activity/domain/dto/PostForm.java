@@ -1,21 +1,24 @@
 package com.activityservice.activity.domain.dto;
 
-import com.activityservice.activity.domain.entity.Post;
+import com.activityservice.activity.domain.entity.Product;
 import lombok.Builder;
 import lombok.Getter;
 
 @Builder
 @Getter
 public class PostForm {
+    private Long stock;
     private String title;
-    private String text;
+    private Long price;
 
-    public Post toEntity(UserDto user) {
-        return Post.builder()
-                .userId(user.getId())
+    public Product toEntity(UserDto user) {
+        return Product.builder()
+//                .userId(user.getId())
+                .stock(this.stock)
+                .price(this.price)
                 .title(this.title)
-                .text(this.text)
-                .userName(user.getName())
+//                .text(this.text)
+//                .userName(user.getName())
                 .build();
     }
 }

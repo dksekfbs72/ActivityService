@@ -6,7 +6,7 @@ import com.activityservice.activity.domain.entity.Comment;
 import com.activityservice.activity.domain.entity.LikeTable;
 import com.activityservice.global.exception.ActivityException;
 import com.activityservice.global.type.ErrorCode;
-import com.activityservice.activity.domain.entity.Post;
+import com.activityservice.activity.domain.entity.Product;
 import com.activityservice.activity.repository.CommentRepository;
 import com.activityservice.activity.repository.LikeRepository;
 import com.activityservice.activity.repository.PostRepository;
@@ -30,16 +30,16 @@ public class LikeService {
 
     public String likePost(String token, long postId) {
         UserDto user = getUser(token);
-        Post post = getThisPost(postId);
+        Product product = getThisPost(postId);
         likeRepository.save(LikeTable.builder()
                 .userId(user.getId())
-                .post(post)
+                .product(product)
                 .build());
         toBeActivity(ActivityForm.builder()
                 .feedType(FeedType.LIKE)
                 .userName(user.getName())
                 .userId(user.getId())
-                .to(post.getUserName())
+//                .to(product.getUserName())
                 .postId(postId)
                 .build());
         return "성공";
@@ -62,8 +62,8 @@ public class LikeService {
         return "성공";
     }
 
-    public Post getThisPost(long postId) {
-        Optional<Post> optionalPost = postRepository.findById(postId);
+    public Product getThisPost(long postId) {
+        Optional<Product> optionalPost = postRepository.findById(postId);
         if (optionalPost.isEmpty()) {
             throw new ActivityException(ErrorCode.NOT_FOUND_POST);
         }

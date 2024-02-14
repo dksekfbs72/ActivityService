@@ -14,19 +14,13 @@ import java.time.LocalDateTime;
 @Table(indexes = {
         @Index(name = "user_asc", columnList = "user_id")
 })
-public class Post {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long userId;
-    private String userName;
+    private Long stock;
+    private Long price;
     private String title;
-    private String text;
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime createAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createAt = LocalDateTime.now();
-    }
+    private LocalDateTime openAt;
 }

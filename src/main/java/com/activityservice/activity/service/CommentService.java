@@ -5,7 +5,7 @@ import com.activityservice.activity.domain.dto.UserDto;
 import com.activityservice.global.exception.ActivityException;
 import com.activityservice.global.type.ErrorCode;
 import com.activityservice.activity.domain.dto.CommentForm;
-import com.activityservice.activity.domain.entity.Post;
+import com.activityservice.activity.domain.entity.Product;
 import com.activityservice.activity.repository.CommentRepository;
 import com.activityservice.activity.repository.PostRepository;
 import com.activityservice.global.type.FeedType;
@@ -26,20 +26,20 @@ public class CommentService {
     private final RestTemplate restTemplate;
     public String writeComment(String token, long postId, CommentForm commentForm) {
         UserDto user = getUser(token);
-        Post post = getThisPost(postId);
+        Product product = getThisPost(postId);
         toBeActivity(ActivityForm.builder()
                 .feedType(FeedType.COMMENT)
                 .userId(user.getId())
                 .userName(user.getName())
-                .to(post.getUserName())
+//                .to(product.getUserName())
                 .postId(postId)
-                .commentId(commentRepository.save(commentForm.toEntity(user, post)).getId())
+                .commentId(commentRepository.save(commentForm.toEntity(user, product)).getId())
                 .build());
         return "성공";
     }
 
-    public Post getThisPost(long postId) {
-        Optional<Post> optionalPost = postRepository.findById(postId);
+    public Product getThisPost(long postId) {
+        Optional<Product> optionalPost = postRepository.findById(postId);
         if (optionalPost.isEmpty()) {
             throw new ActivityException(ErrorCode.NOT_FOUND_POST);
         }

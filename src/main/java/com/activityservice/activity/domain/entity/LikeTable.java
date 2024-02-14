@@ -23,7 +23,7 @@ public class LikeTable {
 
     @ManyToOne
     @JoinColumn(name = "post_id")
-    private Post post;
+    private Product product;
 
     @ManyToOne
     @JoinColumn(name = "comment_id")
