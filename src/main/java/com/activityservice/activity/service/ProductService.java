@@ -7,6 +7,7 @@ import com.activityservice.global.type.FeedType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
     private final RestTemplate restTemplate;
+    private final RedisTemplate<Long, Long> redisTemplate;
 
     public String writePost(String token, ProductForm productForm) {
         UserDto user = getUser(token);
@@ -78,5 +80,15 @@ public class ProductService {
         }
 
         return ProductDetailDto.toDto(optionalProduct.get());
+    }
+
+    public String addStock(Long productId, Long amount) {
+        Long stock = redisTemplate.opsForValue().get(productId);
+        redisTemplate.opsForValue().set(productId, (stock == null ? 0 : stock) + amount);
+        return "상품 수량 추가 성공";
+    }
+
+    public Long getStock(Long productId) {
+        return redisTemplate.opsForValue().get(productId);
     }
 }

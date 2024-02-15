@@ -34,4 +34,17 @@ public class ProductController {
     public WebResponseData<ProductDetailDto> getProductDetail(@RequestParam Long productId) {
         return WebResponseData.ok(productService.getProductDetail(productId));
     }
+
+    @GetMapping("/stock")
+    public WebResponseData<Long> getStock(@RequestParam Long productId) {
+        return WebResponseData.ok(productService.getStock(productId));
+    }
+
+    @PostMapping("/addStock")
+    public WebResponseData<String> addStock(
+            @RequestParam Long productId,
+            @RequestParam Long amount
+    ) {
+        return WebResponseData.ok(productService.addStock(productId, amount));
+    }
 }
