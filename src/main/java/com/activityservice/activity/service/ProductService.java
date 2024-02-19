@@ -1,14 +1,12 @@
 package com.activityservice.activity.service;
 
-import com.activityservice.activity.domain.dto.*;
+import com.activityservice.activity.domain.dto.ProductDetailDto;
+import com.activityservice.activity.domain.dto.ProductDto;
+import com.activityservice.activity.domain.dto.ProductForm;
 import com.activityservice.activity.domain.entity.Product;
 import com.activityservice.activity.repository.ProductRepository;
-import com.activityservice.global.type.FeedType;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,11 +18,14 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
     private final RestTemplate restTemplate;
-    private final RedisTemplate<Long, Long> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
-    public String writePost(String token, ProductForm productForm) {
+    public String addProduct(ProductForm productForm) {
+        long productId = productRepository.save(productForm.toEntity()).getId();
+        redisTemplate.opsForValue().set(String.valueOf(productId), productForm.getStock());
+
+        /* 뉴스피드 사용 시 필요
         UserDto user = getUser(token);
-        long postId = productRepository.save(productForm.toEntity(user)).getId();
         toBeActivity(ActivityForm.builder()
                 .userId(user.getId())
                 .feedType(FeedType.POST)
@@ -32,9 +33,12 @@ public class ProductService {
                 .userName(user.getName())
                 .postId(postId)
                 .build());
+         */
+
         return "성공";
     }
 
+    /* 뉴스피드 사용 시 필요
     private UserDto getUser(String token) {
         String url = "http://userService:8080/user/info";
         HttpHeaders headers = new HttpHeaders();
@@ -68,6 +72,7 @@ public class ProductService {
 
         restTemplate.postForEntity(url, request, String.class);
     }
+     */
 
     public List<ProductDto> getProductList() {
         return ProductDto.toList(productRepository.findAll());
@@ -83,12 +88,14 @@ public class ProductService {
     }
 
     public String addStock(Long productId, Long amount) {
-        Long stock = redisTemplate.opsForValue().get(productId);
-        redisTemplate.opsForValue().set(productId, (stock == null ? 0 : stock) + amount);
+        Object stock = redisTemplate.opsForValue().get(String.valueOf(productId));
+        Long sumStockAndAmount = Long.parseLong(stock == null ? "0" : (String) stock) + amount;
+        redisTemplate.opsForValue().set(String.valueOf(productId), String.valueOf(sumStockAndAmount));
         return "상품 수량 추가 성공";
     }
 
     public Long getStock(Long productId) {
-        return redisTemplate.opsForValue().get(productId);
+        Object stock = redisTemplate.opsForValue().get(String.valueOf(productId));
+        return Long.valueOf(stock == null ? "-1" : (String) stock);
     }
 }

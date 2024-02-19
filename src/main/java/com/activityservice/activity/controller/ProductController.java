@@ -12,17 +12,16 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/product")
+@RequestMapping("/activity/product")
 public class ProductController {
 
     private final ProductService productService;
 
     @PostMapping
-    public WebResponseData<String> writePost(
-            @RequestHeader("Authorization") String token,
+    public WebResponseData<String> addProduct(
             @RequestBody ProductForm productForm
     ) {
-      return WebResponseData.ok(productService.writePost(token, productForm));
+      return WebResponseData.ok(productService.addProduct(productForm));
     }
 
     @GetMapping
@@ -36,11 +35,11 @@ public class ProductController {
     }
 
     @GetMapping("/stock")
-    public WebResponseData<Long> getStock(@RequestParam Long productId) {
-        return WebResponseData.ok(productService.getStock(productId));
+    public Long getStock(@RequestParam Long productId) {
+        return productService.getStock(productId);
     }
 
-    @PostMapping("/addStock")
+    @PutMapping("/addStock")
     public WebResponseData<String> addStock(
             @RequestParam Long productId,
             @RequestParam Long amount
