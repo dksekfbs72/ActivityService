@@ -5,6 +5,7 @@ import com.activityservice.activity.domain.dto.ProductDto;
 import com.activityservice.activity.domain.dto.ProductForm;
 import com.activityservice.activity.domain.entity.Product;
 import com.activityservice.activity.repository.ProductRepository;
+import com.activityservice.global.config.feign.StockClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,10 +18,11 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
     private final RestTemplate restTemplate;
+    private final StockClient stockClient;
 
     public String addProduct(ProductForm productForm) {
         long productId = productRepository.save(productForm.toEntity()).getId();
-
+        stockClient.addStock(productId, productForm.getStock() == null ? 0L : productForm.getStock());
         /* 뉴스피드 사용 시 필요
         UserDto user = getUser(token);
         toBeActivity(ActivityForm.builder()

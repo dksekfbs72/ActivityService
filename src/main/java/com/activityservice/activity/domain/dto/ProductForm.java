@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 public class ProductForm {
-    private String stock;
+    private Long stock;
     private String title;
     private Long price;
     private String description;
