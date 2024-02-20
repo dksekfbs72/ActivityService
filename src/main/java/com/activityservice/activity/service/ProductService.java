@@ -6,7 +6,6 @@ import com.activityservice.activity.domain.dto.ProductForm;
 import com.activityservice.activity.domain.entity.Product;
 import com.activityservice.activity.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,11 +17,9 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
     private final RestTemplate restTemplate;
-    private final RedisTemplate<String, Object> redisTemplate;
 
     public String addProduct(ProductForm productForm) {
         long productId = productRepository.save(productForm.toEntity()).getId();
-        redisTemplate.opsForValue().set(String.valueOf(productId), productForm.getStock());
 
         /* 뉴스피드 사용 시 필요
         UserDto user = getUser(token);
@@ -85,17 +82,5 @@ public class ProductService {
         }
 
         return ProductDetailDto.toDto(optionalProduct.get());
-    }
-
-    public String addStock(Long productId, Long amount) {
-        Object stock = redisTemplate.opsForValue().get(String.valueOf(productId));
-        Long sumStockAndAmount = Long.parseLong(stock == null ? "0" : (String) stock) + amount;
-        redisTemplate.opsForValue().set(String.valueOf(productId), String.valueOf(sumStockAndAmount));
-        return "상품 수량 추가 성공";
-    }
-
-    public Long getStock(Long productId) {
-        Object stock = redisTemplate.opsForValue().get(String.valueOf(productId));
-        return Long.valueOf(stock == null ? "-1" : (String) stock);
     }
 }
