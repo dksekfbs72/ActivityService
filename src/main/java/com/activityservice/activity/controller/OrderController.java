@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     private final OrderService orderService;
+
+    @GetMapping
+    public WebResponseData<OrderStatusDto> getOrder(@RequestParam Long orderId) {
+        return WebResponseData.ok(orderService.getOrder(orderId));
+    }
+
     @PostMapping
     public WebResponseData<OrderStatusDto> order(@RequestParam Long productId) {
         return WebResponseData.ok(orderService.order(productId));

@@ -6,6 +6,7 @@ import com.activityservice.activity.domain.type.OrderStatus;
 import com.activityservice.activity.repository.OrderRepository;
 import com.activityservice.global.config.feign.StockClient;
 import com.activityservice.global.exception.ActivityException;
+import com.activityservice.global.exception.PaymentException;
 import com.activityservice.global.type.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -45,19 +46,28 @@ public class OrderService {
 
         if (getRandomNumber() == 0) {
             stockClient.orderFail(order.getRelProduct());
-            throw new ActivityException(ErrorCode.CHANGE_OF_MIND);
+            order.setStatus(OrderStatus.ORDER_FAIL);
+            throw new PaymentException(ErrorCode.CHANGE_OF_MIND, order);
         }
 
         order.setStatus(OrderStatus.PAYMENT_TRY);
 
         if (getRandomNumber() == 0) {
             stockClient.orderFail(order.getRelProduct());
-            throw new ActivityException(ErrorCode.PAYMENT_FAIL);
+            order.setStatus(OrderStatus.ORDER_FAIL);
+            throw new PaymentException(ErrorCode.PAYMENT_FAIL, order);
         }
 
         order.setStatus(OrderStatus.PAYMENT_SUCCESS);
 
         return OrderStatusDto.ToDto(orderRepository.save(order));
+    }
+
+    @Transactional
+    public OrderStatusDto getOrder(Long orderId) {
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        if (optionalOrder.isEmpty()) throw new ActivityException(ErrorCode.NOT_FOUND_ORDER);
+        return OrderStatusDto.ToDto(optionalOrder.get());
     }
 
     private int getRandomNumber() {
