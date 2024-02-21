@@ -17,7 +17,12 @@ public enum ErrorCode {
     NOT_FOUND_USER("회원을 찾을 수 없습니다."),
     ALREADY_FOLLOW_USER("이미 팔로우한 회원입니다."),
     NOT_FOUND_POST("포스트를 찾을 수 없습니다."),
-    NOT_FOUND_COMMENT("댓글을 찾을 수 없습니다.");
+    NOT_FOUND_COMMENT("댓글을 찾을 수 없습니다."),
+    NOT_ENOUGH_STOCK("재고가 부족합니다."),
+    NOT_FOUND_ORDER("주문 정보가 없습니다."),
+    CHANGE_OF_MIND("고객 변심으로 인한 이탈입니다."),
+    PAYMENT_FAIL("결제 실패로 인한 이탈입니다."),
+    ALREADY_PROCESSED("이미 처리된 주문입니다.");
 
     private final String description;
 }
