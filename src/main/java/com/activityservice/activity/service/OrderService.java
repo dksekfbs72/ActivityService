@@ -24,10 +24,10 @@ public class OrderService {
 
     @Transactional
     public OrderStatusDto order(Long productId) {
-        if (stockClient.getStock(productId) <= 0) {
+        // 재고 관리 서비스 호출
+        if (stockClient.order(productId).equals("재고 부족")){
             throw new ActivityException(ErrorCode.NOT_ENOUGH_STOCK);
         }
-        stockClient.order(productId);
         return OrderStatusDto.ToDto(orderRepository.save(Order.builder()
                 .relProduct(productId)
                 .status(OrderStatus.PAYMENT_PAGE)
