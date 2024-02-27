@@ -16,7 +16,7 @@ public enum ErrorCode {
     NOT_HAVE_EMAIL_AUTH("이메일 인증이 필요합니다."),
     NOT_FOUND_USER("회원을 찾을 수 없습니다."),
     ALREADY_FOLLOW_USER("이미 팔로우한 회원입니다."),
-    NOT_FOUND_POST("포스트를 찾을 수 없습니다."),
+    NOT_FOUND_PRODUCT("상품을 찾을 수 없습니다."),
     NOT_FOUND_COMMENT("댓글을 찾을 수 없습니다."),
     NOT_ENOUGH_STOCK("재고가 부족합니다."),
     NOT_FOUND_ORDER("주문 정보가 없습니다."),

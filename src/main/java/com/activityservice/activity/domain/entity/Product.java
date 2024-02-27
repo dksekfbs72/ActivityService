@@ -18,6 +18,7 @@ public class Product {
     private String description;
     private Long price;
     private String title;
+    private Long stock;
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime openAt;
 }

@@ -22,6 +22,7 @@ public class ProductForm {
                 .title(this.title)
                 .description(this.description)
                 .openAt(this.openAt)
+                .stock(this.stock)
 //                .text(this.text)
 //                .userName(user.getName())
                 .build();

@@ -6,6 +6,8 @@ import com.activityservice.activity.domain.dto.ProductForm;
 import com.activityservice.activity.domain.entity.Product;
 import com.activityservice.activity.repository.ProductRepository;
 import com.activityservice.global.config.feign.StockClient;
+import com.activityservice.global.exception.ActivityException;
+import com.activityservice.global.type.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -21,8 +23,7 @@ public class ProductService {
     private final StockClient stockClient;
 
     public String addProduct(ProductForm productForm) {
-        long productId = productRepository.save(productForm.toEntity()).getId();
-        stockClient.addStock(productId, productForm.getStock() == null ? 0L : productForm.getStock());
+        productRepository.save(productForm.toEntity());
         /* 뉴스피드 사용 시 필요
         UserDto user = getUser(token);
         toBeActivity(ActivityForm.builder()
@@ -84,5 +85,13 @@ public class ProductService {
         }
 
         return ProductDetailDto.toDto(optionalProduct.get());
+    }
+
+    public Long getStock(Long productId) {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if (optionalProduct.isEmpty()) {
+            throw new ActivityException(ErrorCode.NOT_FOUND_PRODUCT);
+        }
+        return optionalProduct.get().getStock();
     }
 }

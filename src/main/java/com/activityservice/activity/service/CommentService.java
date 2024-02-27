@@ -41,7 +41,7 @@ public class CommentService {
     public Product getThisPost(long postId) {
         Optional<Product> optionalPost = productRepository.findById(postId);
         if (optionalPost.isEmpty()) {
-            throw new ActivityException(ErrorCode.NOT_FOUND_POST);
+            throw new ActivityException(ErrorCode.NOT_FOUND_PRODUCT);
         }
         return optionalPost.get();
     }
