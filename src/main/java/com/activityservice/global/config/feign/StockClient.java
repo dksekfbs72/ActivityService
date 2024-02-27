@@ -11,7 +11,7 @@ public interface StockClient {
     Long getStock(@RequestParam Long productId);
 
     @PutMapping("/addStock")
-    String addStock(@RequestParam Long productId, @RequestParam Long amount);
+    Long addStock(@RequestParam Long productId);
 
     @PutMapping("/order")
     String order(@RequestParam Long productId);

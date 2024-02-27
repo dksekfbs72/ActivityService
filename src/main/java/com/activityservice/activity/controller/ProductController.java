@@ -38,4 +38,12 @@ public class ProductController {
     public WebResponseData<ProductDetailDto> getProductDetail(@RequestParam Long productId) {
         return WebResponseData.ok(productService.getProductDetail(productId));
     }
+
+    @PutMapping("/addStock")
+    public Long findStock(
+            @RequestParam Long productId,
+            @RequestParam Long amount
+    ) {
+        return productService.addStock(productId, amount);
+    }
 }

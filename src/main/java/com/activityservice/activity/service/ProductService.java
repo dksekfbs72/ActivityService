@@ -94,4 +94,16 @@ public class ProductService {
         }
         return optionalProduct.get().getStock();
     }
+
+    public Long addStock(Long productId, Long amount) {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if (optionalProduct.isEmpty()){
+            throw new ActivityException(ErrorCode.NOT_FOUND_PRODUCT);
+        }
+        Product product = optionalProduct.get();
+        product.setStock(product.getStock()+amount);
+        productRepository.save(product);
+        stockClient.addStock(productId);
+        return product.getStock();
+    }
 }

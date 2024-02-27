@@ -10,8 +10,14 @@ import com.activityservice.global.exception.PaymentException;
 import com.activityservice.global.type.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -21,17 +27,44 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final StockClient stockClient;
+    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-    @Transactional
     public OrderStatusDto order(Long productId) {
         // 재고 관리 서비스 호출
         if (stockClient.order(productId).equals("재고 부족")){
             throw new ActivityException(ErrorCode.NOT_ENOUGH_STOCK);
         }
-        return OrderStatusDto.ToDto(orderRepository.save(Order.builder()
-                .relProduct(productId)
+        kafkaTemplate.send("order-topic", productId.toString());
+        return OrderStatusDto.builder()
+                .productId(productId)
                 .status(OrderStatus.PAYMENT_PAGE)
-                .build()));
+                .build();
+    }
+
+//    @KafkaListener(topics = "order-topic", groupId = "order-service")
+//    public void handleOrderEvent(String productId) {
+//        orderRepository.save(Order.builder()
+//                        .status(OrderStatus.PAYMENT_PAGE)
+//                        .relProduct(Long.parseLong(productId))
+//                .build());
+//    }
+
+    @Transactional
+    public void saveOrder(List<Long> productIdList) {
+        String sql = "INSERT INTO order_table (rel_product, status) VALUES (?, ?)";
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                ps.setLong(1, productIdList.get(i));
+                ps.setObject(2, OrderStatus.PAYMENT_PAGE.ordinal());
+            }
+
+            @Override
+            public int getBatchSize() {
+                return productIdList.size();
+            }
+        });
     }
 
     @Transactional

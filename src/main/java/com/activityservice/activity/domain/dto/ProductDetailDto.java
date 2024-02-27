@@ -13,12 +13,14 @@ public class ProductDetailDto {
     private String title;
     private String description;
     private Long price;
+    private Long stock;
     private LocalDateTime openAt;
 
     public static ProductDetailDto toDto(Product product) {
         return ProductDetailDto.builder()
                 .id(product.getId())
                 .description(product.getDescription())
+                .stock(product.getStock())
                 .price(product.getPrice())
                 .title(product.getTitle())
                 .openAt(product.getOpenAt())

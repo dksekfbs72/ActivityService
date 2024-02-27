@@ -27,4 +27,9 @@ public class OrderController {
     public WebResponseData<OrderStatusDto> paymentTry(@RequestParam Long orderId) {
         return WebResponseData.ok(orderService.paymentTry(orderId));
     }
+
+    @GetMapping("/dummy")
+    public Long dummy() {
+        return null;
+    }
 }
